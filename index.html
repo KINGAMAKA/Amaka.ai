@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0c0b0c">
+  <meta name="description" content="AMAKA AI — local-first personal intelligence">
+  <title>AMAKA AI V2</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-mark">A</div>
+      <div class="brand-copy">
+        <div class="brand-name">AMAKA AI</div>
+        <div class="brand-subtitle">PERSONAL INTELLIGENCE · V2.0</div>
+      </div>
+      <div class="connection"><span class="status-dot"></span><span id="mode-label">LOCAL</span></div>
+    </header>
+
+    <main>
+      <section class="view active" id="chat-view">
+        <div class="hero">
+          <div class="orb"><div></div></div>
+          <p class="eyebrow">YOUR PERSONAL INTELLIGENCE</p>
+          <h1>Think clearly.<br><em>Build deliberately.</em></h1>
+          <p class="hero-sub">Your ideas. Your questions. One intelligent workspace.</p>
+        </div>
+        <div class="chat-panel">
+          <div class="messages" id="messages" aria-live="polite">
+            <article class="message assistant">
+              <div class="avatar">A</div>
+              <div class="bubble">
+                <div class="sender">AMAKA</div>
+                <p>I'm AMAKA AI V2. I'm running locally on this device. I can help organise your thinking, work with your saved knowledge, explore the seven Hermetic principles as a philosophical framework, and support your projects. I don't have live internet or a full language model in this version.</p>
+              </div>
+            </article>
+          </div>
+          <div class="composer">
+            <textarea id="chat-input" rows="1" placeholder="Ask AMAKA anything..." aria-label="Message AMAKA"></textarea>
+            <div class="composer-actions">
+              <button class="icon-button" id="voice-button" title="Speak" aria-label="Speak">🎙</button>
+              <span class="hint" id="voice-hint">Local mode · Your data stays on this device</span>
+              <button class="send-button" id="send-button">SEND ↑</button>
+            </div>
+          </div>
+        </div>
+        <div class="quick-actions">
+          <button class="quick" data-prompt="Help me think through a decision using the seven Hermetic principles, then examine it scientifically.">◈ Decision analysis</button>
+          <button class="quick" data-prompt="Show me an overview of my businesses and projects.">▤ My businesses</button>
+          <button class="quick" data-prompt="Help me plan my priorities for today.">✧ Plan my day</button>
+        </div>
+      </section>
+
+      <section class="view" id="memory-view">
+        <div class="section-heading">
+          <p class="eyebrow">PERSONAL KNOWLEDGE BASE</p>
+          <h2>Your <em>Memory</em></h2>
+          <p>Review, edit, add and remove what AMAKA knows. Automatic memory suggestions are always under your control.</p>
+        </div>
+        <div class="memory-controls">
+          <input id="memory-search" type="search" placeholder="Search memories...">
+          <select id="memory-filter" aria-label="Filter memories">
+            <option value="all">All categories</option>
+            <option>Identity</option><option>Preference</option><option>Goal</option>
+            <option>Business</option><option>Project</option><option>Idea</option><option>Other</option>
+          </select>
+          <button class="gold-button" id="add-memory">＋ Add memory</button>
+        </div>
+        <div class="memory-settings card">
+          <div><strong>Automatic memory suggestions</strong><p>AMAKA can detect potentially useful facts in your messages and ask before saving them.</p></div>
+          <label class="switch"><input type="checkbox" id="auto-memory" checked><span></span></label>
+        </div>
+        <div id="memory-list" class="stack"></div>
+        <div id="memory-empty" class="empty-state">No memories match this view. Add one or save a suggestion from chat.</div>
+      </section>
+
+      <section class="view" id="business-view">
+        <div class="section-heading">
+          <p class="eyebrow">YOUR ENTERPRISES</p>
+          <h2>Business <em>workspace</em></h2>
+          <p>A starting knowledge base for your ventures. Edit these records as your plans change.</p>
+        </div>
+        <div id="business-list" class="business-grid"></div>
+        <button class="gold-button" id="add-business">＋ Add business / project</button>
+      </section>
+
+      <section class="view" id="tools-view">
+        <div class="section-heading">
+          <p class="eyebrow">PRACTICAL INTELLIGENCE</p>
+          <h2>Local <em>tools</em></h2>
+          <p>Useful utilities that work without an AI API or internet connection.</p>
+        </div>
+        <div class="tool-grid">
+          <div class="card tool-card"><h3>◉ Calculator</h3><input id="calc-input" placeholder="Example: (250*12)-500"><button class="gold-button" id="calculate">Calculate</button><div class="result" id="calc-result"></div></div>
+          <div class="card tool-card"><h3>✧ Notes</h3><textarea id="note-input" rows="4" placeholder="Write a thought or idea..."></textarea><button class="gold-button" id="save-note">Save note</button><div id="notes-list" class="notes-list"></div></div>
+          <div class="card tool-card"><h3>☷ Tasks</h3><div class="inline-form"><input id="task-input" placeholder="Add a task..."><button class="gold-button" id="add-task">Add</button></div><div id="tasks-list" class="tasks-list"></div></div>
+          <div class="card tool-card"><h3>◈ Hermetic study</h3><p>Explore the seven principles as a reflective lens. These are philosophical concepts, not established scientific laws.</p><button class="gold-button" id="show-principles">Explore principles</button></div>
+        </div>
+        <div id="principles" class="card principles hidden"></div>
+      </section>
+
+      <section class="view" id="settings-view">
+        <div class="section-heading"><p class="eyebrow">CONFIGURATION</p><h2>AMAKA <em>settings</em></h2><p>Control how your local assistant behaves.</p></div>
+        <div class="card settings-card">
+          <label>Assistant name<input id="assistant-name" value="AMAKA"></label>
+          <label>Communication style<select id="style-setting"><option value="balanced">Direct, thoughtful and balanced</option><option value="concise">Concise and practical</option><option value="detailed">Detailed and analytical</option></select></label>
+          <label class="check-row"><input type="checkbox" id="speech-setting" checked> Read responses aloud when supported</label>
+          <label class="check-row"><input type="checkbox" id="confirm-memory" checked> Ask before saving automatic memory suggestions</label>
+          <button class="gold-button" id="save-settings">Save settings</button>
+        </div>
+        <div class="card">
+          <h3>Privacy and data</h3>
+          <p>V2 stores memories, notes, tasks and settings in this browser's local storage. They are not automatically uploaded to GitHub or an AI provider. Clearing browser data may erase them. Export a backup regularly.</p>
+          <div class="button-row"><button class="gold-button" id="export-data">Export backup</button><label class="gold-button file-label">Import backup<input type="file" id="import-data" accept="application/json"></label></div>
+          <button class="danger-button" id="clear-data">Erase all local data</button>
+        </div>
+        <div class="card"><h3>What this version can and cannot do</h3><p>V2 is a local-first assistant with programmed responses, searchable personal memory and local utilities. It is not connected to a large language model, live web search, email, calendar or external services. Voice recognition and speech depend on browser and Android support; some browser speech services may require internet access.</p></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <button class="nav-item active" data-view="chat"><span>◉</span>CHAT</button>
+      <button class="nav-item" data-view="memory"><span>▤</span>MEMORY</button>
+      <button class="nav-item" data-view="business"><span>⌂</span>BUSINESS</button>
+      <button class="nav-item" data-view="tools"><span>✧</span>TOOLS</button>
+      <button class="nav-item" data-view="settings"><span>⚙</span>SETTINGS</button>
+    </nav>
+  </div>
+
+  <dialog id="memory-dialog">
+    <form method="dialog" id="memory-form">
+      <div class="dialog-head"><h3 id="memory-dialog-title">Add memory</h3><button class="close-button" value="cancel" aria-label="Close">×</button></div>
+      <input type="hidden" id="memory-id">
+      <label>Memory<textarea id="memory-content" rows="4" required placeholder="What should AMAKA remember?"></textarea></label>
+      <label>Category<select id="memory-category"><option>Identity</option><option>Preference</option><option>Goal</option><option>Business</option><option>Project</option><option>Idea</option><option>Other</option></select></label>
+      <button class="gold-button" id="save-memory" value="default">Save memory</button>
+    </form>
+  </dialog>
+  <dialog id="business-dialog">
+    <form method="dialog" id="business-form">
+      <div class="dialog-head"><h3 id="business-dialog-title">Add business</h3><button class="close-button" value="cancel">×</button></div>
+      <input type="hidden" id="business-id">
+      <label>Name<input id="business-name" required></label>
+      <label>Type / category<input id="business-type"></label>
+      <label>Summary<textarea id="business-summary" rows="4"></textarea></label>
+      <button class="gold-button" value="default">Save</button>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
